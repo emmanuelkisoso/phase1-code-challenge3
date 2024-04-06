@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded' , async (event) =>{
     const allMovies= await getAllMovies()
     console.log(allMovies)
     listAllMovies(allMovies)
-    showTickets()
+    ticketing()
 })
 
 function displayMovieOne(movieOne) {
@@ -42,13 +42,25 @@ function listAllMovies(allMovies) {
         });
 }
 
-function showTickets() {
-        let buyTicketElement=document.getElementById('buy-ticket');
-        let spanElement=document.getElementsByTagName('span')
-        buyTicketElement.addEventListener('click', (event) =>{
 
-        })
-}
+function ticketing() {
+    let ticketNumElement = document.getElementById('ticket-num');
+    let buyTicketElement = document.getElementById('buy-ticket');
+
+        buyTicketElement.addEventListener('click', () => {
+            let availableTickets = parseInt(ticketNumElement.textContent);
+
+            if (availableTickets > 0) {
+                availableTickets--;
+                ticketNumElement.textContent = availableTickets.toString();
+
+                if (availableTickets === 0) {
+                    ticketNumElement.textContent = "0";
+                    buyTicketElement.disabled = true;
+                }
+            }
+        });
+    }
 
 
 
@@ -95,3 +107,33 @@ function getTickets() {
     .then(res =>res.json())
     .then(tickets =>tickets)
 }
+function buyTickets(filmId,numberOfTickets) {
+    const body={
+        film_id: filmId,
+        number_of_tickets: numberOfTickets
+    }
+    fetch('http://localhost:3000/films',{
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    })
+    .then ((data)=> {
+        console.log('Ticket Purchased Successfully:',(data))
+    })
+    .catch (error =>{
+        console.log('Ticket Not Purchased:',error)
+    })
+}
+function deleteMovie() {
+    return fetch("http://localhost:3000/films",{
+        method: 'DELETE',
+        headers:{
+            "Content-Type":"application/json",
+            "Accept":"application/json"
+        },
+        })
+        .then(res =>res.json())
+        .then(deleteMovie =>deleteMovie)
+    }
