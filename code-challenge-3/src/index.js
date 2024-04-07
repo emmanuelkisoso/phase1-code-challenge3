@@ -70,6 +70,11 @@ function ticketing() {
 
 
 
+
+
+
+
+
 // Business Logic-use the crud method
 function getMovieOne() {
     return fetch("http://localhost:3000/films/1",{
@@ -127,13 +132,22 @@ function buyTickets(filmId,numberOfTickets) {
     })
 }
 function deleteMovie() {
-    return fetch("http://localhost:3000/films",{
+        const filmElement = document.getElementById(id);
+        if (filmElement) {
+        filmElement.remove();
+        }
+        fetch(`/films/${id}`,{
         method: 'DELETE',
         headers:{
             "Content-Type":"application/json",
             "Accept":"application/json"
-        },
+        }
         })
         .then(res =>res.json())
-        .then(deleteMovie =>deleteMovie)
+        .then ((data)=> {
+            console.log('Film Deleted Successfully:',(data))
+        })
+        .catch (error =>{
+            console.log('Film Not Deleted Successfully:',error)
+        })
     }
