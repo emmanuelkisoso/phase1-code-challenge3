@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded' , async (event) =>{
     console.log(movieOne)
     displayMovieOne(movieOne)
     const allMovies= await getAllMovies()
-    console.log(allMovies)
     listAllMovies(allMovies)
     ticketing()
 })
@@ -31,45 +30,45 @@ function displayMovieOne(movieOne) {
     }
 
 function listAllMovies(allMovies) {
-        let filmsElement=document.getElementById('films');
+    let filmsElement=document.getElementById('films');
 
-        allMovies.forEach((movie) => {
+    filmsElement.innerHTML = '';
+
+    allMovies.forEach((movie) => {
+        if (movie.title.trim() !== '') { // Check if the movie title is not empty
             let titleDiv=document.createElement('div');
-
             titleDiv.textContent=movie.title;
 
-            filmsElement.appendChild(titleDiv)
-        });
-}
+            let deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', () => deleteMovie(movie.id));
 
+            titleDiv.appendChild(deleteButton);
+            filmsElement.appendChild(titleDiv);
+        }
+    });
+}
 
 function ticketing() {
     let ticketNumElement = document.getElementById('ticket-num');
     let buyTicketElement = document.getElementById('buy-ticket');
 
-        buyTicketElement.addEventListener('click', () => {
-            let availableTickets = parseInt(ticketNumElement.textContent);
 
-            if (availableTickets > 0) {
-                availableTickets--;
-                ticketNumElement.textContent = availableTickets.toString();
+    buyTicketElement.addEventListener('click', () => {
+        let availableTickets = parseInt(ticketNumElement.textContent);
 
-                if (availableTickets === 0) {
-                    ticketNumElement.textContent = "0";
-                    buyTicketElement.disabled = true;
-                }
+        if (availableTickets > 0) {
+            availableTickets--;
+            ticketNumElement.textContent = availableTickets.toString();
+
+            if (availableTickets === 0) {
+                ticketNumElement.textContent = "0";
+                buyTicketElement.disabled = true;
+                buyTicketElement.textContent="Sold Out";
             }
-        });
-    }
-
-
-
-
-
-
-
-
-
+        }
+    });
+}
 
 
 
@@ -131,23 +130,23 @@ function buyTickets(filmId,numberOfTickets) {
         console.log('Ticket Not Purchased:',error)
     })
 }
-function deleteMovie() {
-        const filmElement = document.getElementById(id);
-        if (filmElement) {
-        filmElement.remove();
-        }
-        fetch(`/films/${id}`,{
-        method: 'DELETE',
-        headers:{
-            "Content-Type":"application/json",
-            "Accept":"application/json"
-        }
-        })
-        .then(res =>res.json())
-        .then ((data)=> {
-            console.log('Film Deleted Successfully:',(data))
-        })
-        .catch (error =>{
-            console.log('Film Not Deleted Successfully:',error)
-        })
+function deleteMovie(id) {
+    const filmElement =document.getElementById(id);
+    if (filmElement) {
+    filmElement.remove();
     }
+    fetch(`http://localhost:3000/films/${id}`,{
+    method: 'DELETE',
+    headers:{
+        "Content-Type":"application/json",
+        "Accept":"application/json"
+    }
+    })
+    .then(res =>res.json())
+    .then((data)=> {
+        console.log('Film Deleted Successfully:',data)
+    })
+    .catch(error =>{
+        console.log('Film Not Deleted Successfully:',error)
+    })
+}
