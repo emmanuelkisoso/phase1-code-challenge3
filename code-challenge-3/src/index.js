@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded' , async (event) =>{
     console.log(movieOne)
     displayMovieOne(movieOne)
     const allMovies= await getAllMovies()
-    listAllMovies(allMovies)
-    ticketing()
+    listMovies(allMovies)
+    ticketSetup()
 })
 
 function displayMovieOne(movieOne) {
@@ -29,13 +29,13 @@ function displayMovieOne(movieOne) {
         ticketNumElement.textContent=availableTickets.toString();
     }
 
-function listAllMovies(allMovies) {
+function listMovies(allMovies) {
     let filmsElement=document.getElementById('films');
 
     filmsElement.innerHTML = '';
 
     allMovies.forEach((movie) => {
-        if (movie.title.trim() !== '') { // Check if the movie title is not empty
+        if (movie.title && movie.title.trim() !== '') { // Check if the movie title is not empty
             let titleDiv=document.createElement('div');
             titleDiv.textContent=movie.title;
 
@@ -49,7 +49,7 @@ function listAllMovies(allMovies) {
     });
 }
 
-function ticketing() {
+function ticketSetup() {
     let ticketNumElement = document.getElementById('ticket-num');
     let buyTicketElement = document.getElementById('buy-ticket');
 
