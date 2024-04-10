@@ -76,7 +76,7 @@ function ticketSetup() {
 
 // Business Logic-use the crud method
 function getMovieOne() {
-    return fetch("http://localhost:3000/films/1",{
+    return fetch("https://codechallenge3-1.onrender.com/films/1",{
         method: 'GET',
         headers:{
             "Content-Type":"application/json",
@@ -87,7 +87,7 @@ function getMovieOne() {
     .then(movieOne =>movieOne)
 }
 function getAllMovies() {
-    return fetch("http://localhost:3000/films",{
+    return fetch("https://codechallenge3-1.onrender.com/films",{
         method:'GET',
         headers:{
             "Content-Type":"application/json",
@@ -98,7 +98,7 @@ function getAllMovies() {
     .then(allMovies =>allMovies)
 }
 function getTickets() {
-    return fetch("http://localhost:3000/films/1",{
+    return fetch("https://codechallenge3-1.onrender.com/films/1",{
         method: 'PATCH',
         headers:{
             "Content-Type":"application/json",
@@ -116,7 +116,7 @@ function buyTickets(filmId,numberOfTickets) {
         film_id: filmId,
         number_of_tickets: numberOfTickets
     }
-    fetch('http://localhost:3000/films',{
+    fetch('https://codechallenge3-1.onrender.com/films',{
         method: 'POST',
         headers:{
             'Content-Type': 'application/json'
@@ -135,7 +135,7 @@ function deleteMovie(id) {
     if (filmElement) {
     filmElement.remove();
     }
-    fetch(`http://localhost:3000/films/${id}`,{
+    fetch(`https://codechallenge3-1.onrender.com/films/${id}`,{
     method: 'DELETE',
     headers:{
         "Content-Type":"application/json",
